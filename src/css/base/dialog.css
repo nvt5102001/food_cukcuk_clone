@@ -1,0 +1,63 @@
+.dialog
+{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10002;
+}
+
+.dialog__inner
+{
+	min-width: 400px;
+	max-width: 450px;
+	background-color: #fff;
+	border-radius: 4px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	box-shadow: rgb(136, 136, 136) 0px 0px 6px;
+	border: 5px solid #0072bc !important;
+
+}
+.dialog__header 
+{
+	align-items: center;
+	justify-content: space-between;
+	background-color: #0072bc !important;
+	border: 5px solid #0072bc !important;
+	border-radius: 10px 10px 0 0;
+	color: #fff;
+	width: calc(100% + 10px);
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	cursor: all-scroll;
+}
+.dialog__title 
+{
+	font-size: 13px;
+}
+
+.dialog__body 
+{
+	column-gap: 8px;
+	align-items: center;
+	padding: 10px;
+	margin-top:20px ;
+}
+.dialog__text
+{
+	line-height: 1.5;
+	max-width: 328px;
+}
+.dialog__footer 
+{
+	column-gap: 4px;
+	padding:  6px 10px;
+}

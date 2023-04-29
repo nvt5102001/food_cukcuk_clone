@@ -1,0 +1,53 @@
+.toast__box {
+	position: fixed;
+	top: 10px;
+	right: 24px;
+	z-index: 100000000;
+}
+
+.toast
+{
+	min-width: 450px;
+	max-width: 650px;
+	min-height: 56px;
+	background-color: #fcfcfc;
+	color: #1F1F1F;
+	display: flex;
+	align-items: center;
+	padding: 20px 18px;
+	border-radius: 4px;
+}
+
+.toast span 
+{
+	font-weight: 700;
+}
+.toast__icon 
+{
+	margin-right: 10px;
+}
+
+.toast__text 
+{
+	margin-right: 16px;
+	flex: 1;
+	min-width: 206px;
+	line-height: 1.5;
+}
+
+.toast__undo 
+{
+	text-decoration: underline;
+	cursor: pointer;
+	font-weight: 700;
+}
+.toast__close 
+{
+	margin-left: 16px;
+}
+
+.toast--success span {
+	color: #50B83C;
+}
+
+

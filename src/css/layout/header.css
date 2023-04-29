@@ -1,0 +1,161 @@
+.header {
+    display: flex;
+    height: 55px;
+    width: 100%;
+    background-color: #0973b9;
+    color: #fff;
+}
+
+/* Header left */
+.header__left {
+    background-color: #0973b9;
+    width: 230px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #016087;
+    padding: 1px;
+    column-gap: 3px;
+}
+
+.header__left .header__mulApp {
+    background: url("../../assets/icon-left-header.png");
+    cursor: pointer;
+    margin-left: 12px;
+    width: 24px;
+    margin-top: 4px;
+    height: 24px;
+  
+}
+.header__left .header__logo {
+    background-image: url("../../assets/logo-text.png");
+    flex: 1;
+    width: 100%;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: 2px center;
+}
+.header__toggle {
+    cursor: pointer;
+}
+.header__cbxCompany {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.header__nameCompany {
+    text-transform: uppercase;
+    flex-shrink: 0;
+    margin: 0 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 600;
+    max-width: 600px;
+    text-overflow: ellipsis;
+    transition: all .2s ease;
+    font-size: 14px;
+    color: #111;
+}
+.header__arrow {
+    display: flex;
+    align-items: center;
+}
+
+/* Header right */
+.header__company,
+.header__account,.account__info
+{
+    display: flex;
+    align-items: center;
+}
+.header__company 
+{
+    height: 32px;
+}
+.header__company div 
+{
+    background-color: #005082!important;
+}
+.header__input__filter {
+    width: 28px;
+    height: 32px;
+}
+.header__company input 
+{
+    background-color: #005082!important;
+    color: #fff;
+    border: none;
+    outline: none;
+    height: 32px;
+    padding: 3px 5px;
+}
+.header__input__select--icon
+{
+    width: 22px;
+    height: 32px;
+    background-image: url("../../assets/icon/trigger.png");
+    background-position: 0 center;
+}
+.header__input__filter--icon{
+    background-image: url("../../assets/icon/filter_1.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    text-align: center;
+    stroke: #fff;
+    margin-left: 4px;
+    width: 22px;
+    height: 32px;
+    background-position: -1px 4px;
+}
+.header__right {
+    width: calc(100% - 230px);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 11px;
+}
+.header__account {
+    position: relative;
+    column-gap: 24px;
+    margin-right: 15px;
+   
+}
+.account__info {
+    cursor: pointer;
+    column-gap: 10px;
+}
+.header-icon-menu {
+    cursor: pointer;
+    position: relative;
+    height: 48px;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header-icon-menu .icon { margin-right: 0;}
+
+.avatar__user {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.name__user {
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+}
+.display__user{
+    white-space: nowrap;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 600;
+}

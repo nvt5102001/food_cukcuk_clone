@@ -1,0 +1,10 @@
+#app {
+    min-width: 1024px;
+    /* min-height: 1768px;     */
+  
+}
+.container {
+    display: flex;
+}
+
+

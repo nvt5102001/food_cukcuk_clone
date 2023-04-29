@@ -1,0 +1,17 @@
+::-webkit-input-placeholder { /* Edge */
+    color: #aaaaaa;
+    font-style: italic;
+    font-weight: 300;
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer */
+    color: #aaaaaa;
+    font-style: italic;
+    font-weight: 300;
+  }
+  
+  ::placeholder {
+    color: #aaaaaa;
+    font-style: italic;
+    font-weight: 300;
+  }

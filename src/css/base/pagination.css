@@ -1,0 +1,192 @@
+.ms-pagination {
+    height: 38px;
+   /* position: sticky;
+    bottom:0;
+    z-index: 10000;*/
+    background-color: #fff;
+    display: flex;
+    width: calc(100% - 230px - 20px);
+    position: fixed;
+    bottom: 10px;
+    left: calc(230px + 10px);
+    border: 1px solid #ccc;
+}
+.line-page 
+{
+    height: 16px;
+    width: 1px;
+    background-color: #ccc;
+   
+}
+.input-page 
+{
+    width: 38px;
+    height: 22px;
+    border: 1px solid #c8c8c8;
+    outline: none;
+}
+.input-page:focus
+{
+    border: 1px solid #2680eb;
+}
+
+.ms-pagination-inner {
+   
+    display: flex;
+    width: 100% !important;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    left: 24px;
+    bottom: 0;
+}
+
+.pagination__left {
+    
+    white-space: nowrap;
+    min-width: 10px;
+    display: flex;
+    min-height: 32px;
+    align-items: center;
+    padding-left: 5px;
+}
+.pagination__left-item 
+{
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+
+}
+
+.pagination__right
+{
+    position: sticky;
+    right: 25px;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+}
+
+.pagination-combobox-record
+{
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    column-gap: 4px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-button-record .icon 
+{
+    position: absolute;
+    top: 50%;
+    right: 1px;
+    transform: translateY(-50%);
+
+}
+.pagination__right-combobox-record
+{
+    position: relative;
+    display: flex;
+    min-height:32px;
+    
+}
+.pagination-combobox-list {
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: -1px;
+    min-width: 61px;
+    background-color: #fff;
+    border: 1px solid #babec5;
+    border-radius: 4px;
+    z-index: 8;
+}
+
+.pagination-selected-options
+{
+    color: #666666;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+/* .pagination-selected-options .combo-input
+{
+    border: none;
+    outline: none;
+    font-size: 13px;
+    padding-right: unset;
+    text-overflow: ellipsis;
+    background-color: transparent;
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    cursor: pointer;
+   
+   
+} */
+.pagination-selected-options .combo-input:focus {
+    outline: none;
+}
+
+.pagination-button-record { display: flex; position: relative;}
+
+.input-pagination {
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+    
+}
+
+.pagination-combobox-item {
+    height: 32px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    line-height: 32px;
+    white-space: nowrap;
+    flex: 1;
+    padding: 0 14px 0 10px;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.pagination-combobox-item:hover 
+{
+   background-color: #cce6f8;
+}
+
+.pageSizeSelectActive
+{
+    background-color: #c1ddf1;
+    /* pointer-events: none; */
+}
+.pagination__number__list,
+.page__number {
+    display: flex;
+    align-items: center;
+}
+.page__number div 
+{
+    padding: 0 0.5rem;
+}
+.page__prev 
+{
+    margin-right:1rem ;
+}
+.page__next 
+{
+    margin-left: 1rem;
+}
+.disableText {
+    cursor: default !important;
+    color: #9e9e9e;
+}
+.page-number-selected {
+    border: 1px solid #e0e0e0;
+    font-weight: 700;
+}

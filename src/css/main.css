@@ -1,0 +1,198 @@
+/* CSS layout */
+@import url("../css/layout/header.css");
+@import url("../css/layout/container.css");
+@import url("../css/layout/navbar.css");
+@import url("../css/layout/content.css");
+
+/* CSS Base */
+@import url("../css/base/icon.css");
+@import url("../css/base/scrollbar.css");
+@import url("../css/base/button.css");
+@import url("../css/base/input.css");
+@import url("../css/base/table.css");
+@import url("../css/base/checkbox.css");
+@import url("../css/base/pagination.css");
+@import url("../css/base/popup.css");
+@import url("../css/base/cobobox-input.css");
+@import url("../css/base/placeholder.css");
+@import url("../css/base/toast.css");
+@import url("../css/base/dialog.css");
+@import url("../css/base/calendar.css");
+
+/* 
+@font-face {
+    font-family: Font Basic;
+    src: url(../assets/font/GoogleSans-Regular.otf);
+} */
+
+@font-face {
+    font-family:Roboto-Bold ;
+    src: url(../assets/fonts/Roboto/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Italic ;
+    src: url(../assets/fonts/Roboto/Roboto-Italic.ttf);
+}
+
+@font-face {
+    font-family:Roboto-Thin;
+    src: url(../assets/fonts/Roboto/Roboto-Thin.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Regular ;
+    src: url(../assets/fonts/Roboto/Roboto-Regular.ttf);
+}
+
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+	font-size: 13px;
+	font-family:'Roboto-Regular';
+	user-select: none;
+}
+.m-row {
+    display: block;
+}
+.flex 
+{
+	display: flex;
+}
+.flex-items-center {
+	align-items: center;
+}
+
+.flex-jus-center
+{
+	justify-content: center;
+}
+.flex-jus-between 
+{
+	justify-content: space-between;
+}
+.flex-col-reverse
+{
+	flex-direction: column-reverse;
+}
+.flex-row-reverse
+{
+	flex-direction: row-reverse;
+}
+
+.input--error 
+{
+	border:1px solid red !important;
+}
+
+.border-blue 
+{
+	border: 1px solid #4b9cd7 !important;
+}
+.opacity {
+	opacity: 0.5;
+}
+.disable
+{
+	cursor: default !important;
+	opacity: 0.5;
+}
+.disable:hover 
+{
+	background-color: transparent !important;
+}
+.disable > a:hover
+{
+	cursor: default !important;
+	color: #333;
+}
+.background-white {
+	background-color: #FFF;
+}
+.background-transparent 
+{
+	background: transparent !important;
+}
+.sticky {
+	position: sticky !important;
+}
+.left-0 {
+	left: 0;
+}
+/*Chia kích thước*/
+.w-100 
+{
+	width: 100% !important;
+}
+.w-50 
+{
+	width: 50% !important;
+}
+.w-40 
+{
+	width: 40% !important;
+}
+.w-60 
+{
+	width: 60% !important;
+}
+.w-25
+{
+	width: 25% !important;
+}
+
+
+/*Margin*/
+.m-r-6 
+{
+	margin-right: 6px;
+}
+.m-r-26 
+{
+	margin-right: 26px;
+}
+.m-b-2
+{
+	margin-bottom: 2px;
+}
+.m-b-8
+{
+	margin-bottom: 8px;
+}
+.m-b-7
+{
+	margin-bottom: 7px;
+}
+
+/*Padding*/
+.p-r-6 
+{
+	padding-right: 6px;
+}
+.p-r-26 
+{
+	
+	padding-right: 26px;
+}
+.p-l-10 
+{
+	padding-left: 10px;
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+    flex-shrink: 0;
+}
+
+.cursor-pointer 
+{
+	cursor: pointer;
+}
+.dis-contents {
+	display: contents;
+}
+
+

@@ -1,0 +1,231 @@
+.ms-table 
+{
+    min-width: 1500px;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    border-top: 1px solid transparent;
+}
+.selectRecord {
+    background-color: #d7e9f4 !important;
+}
+.ms-th {
+    min-width: 150px;
+    font-weight: normal;
+    height: 55px;
+    user-select: none;
+    top: 0;
+    
+}
+.th-text 
+{
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.th-text:hover 
+{
+  background-color: #eef6fb;
+}
+.ms-tbody tr:hover 
+{
+    background-color: #d7e9f4 !important;
+}
+
+.ms-tbody td
+{
+    border: 1px solid #ccc;
+    text-overflow: ellipsis;
+    padding: 0 10px;
+    background-color: transparent;
+    height: 24px;
+    
+    
+}
+.ms-tbody tr:nth-child(even) 
+{
+    background-color: #fafafa;
+}
+.ms-thead
+{
+    background-color: #ededed!important;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 5;
+}
+.ms-th-inner 
+{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.td-center *
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+   
+}
+.td-right
+{
+    text-align: right; 
+}
+.td-left 
+{
+    text-align: left;
+    
+}
+
+.ms-th + .ms-th 
+{
+    border-left: 1px solid #ccc;
+}
+.th-filter
+{
+    display: flex;
+    align-items: center;
+}
+
+
+.column-selected 
+{
+    background-color: #c1ddf1 !important;
+}
+.ms-tbody-combobox tr:hover 
+{
+    background-color: #d7e9f4;
+}
+
+.ms-tbody-combobox tr:hover input
+{
+    background-color: #d7e9f4 ;
+}
+
+.ms-tbody-combobox tr input:focus + .ms-tbody-combobox td {
+    border: 1px solid #4b9cd7;
+  }
+
+  .ms-tbody-combobox td 
+  {
+    position: relative;
+  }
+
+
+
+.table-autocombobox 
+{
+    display: none;
+    position: fixed;
+    min-width: 350px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    z-index: 100000;
+}
+
+.hideEl {
+    display: block;
+}
+  .table-autocombobox-inner
+  {
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .table-autocombobox-header ,
+  .table-autocombobox-body
+  {
+    
+    width: 100%;
+  }
+  .table-autocombobox-header 
+  {
+    background-color: #ededed;
+  }
+  .table-autocombobox-body 
+  {
+    background-color: #fff;
+  }
+
+  .table-autocombobox-header div ,
+  .table-autocombobox-body div
+  {
+    padding: 8px;
+    border: 1px solid #ccc;
+    height: 28px;
+    display: flex;
+    align-items: center;
+  }
+  .table-autocombobox-body:hover div
+  {
+    background-color: #d7e9f4 ;
+  }
+  .table-autocombobox-header div 
+  {
+    justify-content: center;
+    font-weight: bold;
+  }
+  
+
+  .ms-component 
+  {
+    background-color: #fff;
+  }
+  .fix-list 
+  {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border: 1px solid #e1e1e1;
+  }
+  .fix-item 
+  {
+    
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 3px 5px;
+    
+  }
+  .fix-item:hover 
+  {
+    background-color: #d7e9f4;
+  }
+  .fix-item a 
+  {
+    text-decoration: none;
+    font: normal 13px helvetica,arial,verdana,sans-serif;
+    line-height: 23px;
+    padding-top: 1px;
+    color: #000;
+    margin-left: 4px;
+    
+  }
+
+  .table-unresult 
+  {
+    width: calc(100% - 230px);
+    position: absolute;
+    top: calc(27px + 58px + 30px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nodata 
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .row-focus 
+  {
+    background-color: #d7e9f4 !important;
+  }

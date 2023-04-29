@@ -1,0 +1,216 @@
+.btn {
+    transition: all .2s ease;
+    cursor: pointer;
+    height: 36px;
+    min-width: 80px;
+    border-radius: 4px;
+    padding: 0 16px;
+    outline: none;
+}
+.btn-hover:hover 
+{
+    border: 1px solid #4b9cd7;
+}
+.btn-default-cukcuk 
+{
+    background-image: -webkit-linear-gradient(top,#f2f2f2,#e0e0e0)!important;
+    border: 1px solid #ccc;
+    min-width: 75px;
+    padding: 3px;
+    color: #000000;
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+
+}
+.btn-icons 
+{
+    
+    cursor: pointer;
+}
+.button-icon 
+{
+    padding: 3px;
+}
+
+.btn__icon--right 
+{
+    padding-left: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid #E0E0E0;
+    background-color:#fff ;
+    color: #171B2A;
+    
+}
+
+.btn__icon--right:hover 
+{
+    background-color: #d2d3d6;
+}
+
+.selectedRecordBtn > div 
+{
+    position: relative;
+}
+
+.selectedRecordBtn .icon 
+{
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+.btn-none 
+{
+    background: transparent !important;
+    border: none;
+    outline: none;
+}
+
+.btn-default {
+    border: 1px solid #3b3c3f;
+    color: #111;
+    background-color: transparent;
+    border-radius: 4px;
+    width: 180px;
+}
+button:disabled , button:disabled .icon{
+    opacity: 0.5; /* giảm độ trong suốt của button */
+    cursor: not-allowed; /* thay đổi con trỏ chuột */
+}
+.btn-default span {
+    padding-right: 4px;
+}
+/* 
+.btn-default:hover {
+    background-color: #d2d3d6;
+} */
+
+
+
+.btn-green {
+    border: none !important;
+    background-color:#2ca01c !important;
+    color: #fff !important;
+}
+
+.btn-red 
+{
+    border: none;
+    background-color:#DE3617 ;
+    color: #fff;
+}
+
+.btn-green:focus 
+{
+    background-color: #35bf22 !important;
+}
+
+.btn-green:hover {
+    background-color: #35bf22 !important;
+}
+
+.btn-normal-default:focus 
+{
+    background-color: #d2d3d6;
+}
+
+.btn-normal-default:hover
+{
+    background-color: #d2d3d6;
+}
+.dropdown-text 
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.dbl-button-green button:hover {
+    background-color: #35bf22;
+}
+
+
+.dbl-button-left {
+    border-radius: 4px 0 0 4px;
+    padding: 8px 16px 8px 20px;
+    border: 1px solid transparent;
+    color: #fff;
+    flex-basis: calc(100% - 40px);
+    border-right: 1px solid #fff;
+    height: 36px;
+}
+
+.dbl-button-icon 
+{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,50%);
+}
+
+.dbl-button-default-left
+ {
+    background-color: #fff;
+    color: #333;
+    border: none;
+    height: 36px;
+ }
+ .dbl-button-default-right {
+    border: none;
+    background-color: #fff;
+    height: 36px;
+
+ }
+
+
+.dbl-button-green-left {
+    background-color: #2ca01c;
+}
+
+.dbl-button-right {
+    border: 1px solid transparent;
+    height: 100%;
+    color: #fff;
+    flex-basis: 40px;
+    border-radius: 0 4px 4px 0;
+    height: 36px;
+    position: relative;
+}
+
+.dbl-button-green-right {
+    background-color: #2ca01c;
+}
+.btn-text {
+    position: relative;
+    color: inherit;
+    display: inline-block;
+    transition: all .25s ease;
+    white-space: nowrap;
+    line-height: 13px; 
+}
+
+.line {
+    left: -7px;
+    height: 20px;
+    top: -1px;
+    position: absolute;
+    border: 1px solid transparent;
+    border-left-color: #fff;
+}
+
+.dropdown {
+    display: flex;
+    min-width: 114px;
+    border-radius: 4px;
+}
+.dropdown--green
+{
+    border: 2px solid #2ca01c;
+}
+
+
+.dropdown + .dropdown {
+    margin-left: 12px;
+}
