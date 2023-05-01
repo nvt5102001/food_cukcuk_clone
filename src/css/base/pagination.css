@@ -54,7 +54,7 @@
 {
     display: flex;
     align-items: center;
-    column-gap: 15px;
+    column-gap: 8px;
 
 }
 
@@ -110,7 +110,17 @@
     font-weight: 400;
     line-height: 18px;
 }
-
+.pagination__left-item-inner 
+{
+    padding: 3px;
+    border: 1px solid transparent !important;
+}
+.pagination__left-item-inner:hover
+{
+    border-color: #d8d8d8;
+    border-radius: 4px;
+    background-image: -webkit-linear-gradient(top,#ededed,#ebebeb 50% , #dfdfdf 51%, #ebebeb);
+}
 /* .pagination-selected-options .combo-input
 {
     border: none;

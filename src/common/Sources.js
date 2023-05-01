@@ -14,8 +14,9 @@
 // Text popup thông báo 
 // CreatedBy: NVTHUY(03/03/2023)
 export const popupMsg = {
-    storeMsg: "Dữ liệu đã bị thay đổi bạn có muốn cất không?",
+    storeMsg: "Dữ liệu đã thay đổi, bạn có muốn cất không?",
     deleteMsg: "Bạn có muốn xoá các món ăn đã chọn này không ?",
+    errorImgMsg: "Ảnh chọn không đúng định dạng.",
 }
 
 // Title popup thông báo
@@ -25,23 +26,4 @@ export const titlePopup = {
     changeTitle: "Dữ liệu đã thay đổi",
     validTitle: "Thông tin nhập chưa chính xác",
     defaultTitle: "CUKCUK - Quản lý nhà hàng"
-}
-
-/////----- Toast -----
-// Title toast
-// CreatedBy: NVTHUY(29/03/2023)
-export const titleToast = {
-    successTitle: "Thành công!",
-    errorTitle: "Lỗi!",
-    warnTitle: "Cảnh báo!",
-    infoTitle: "Thông tin!",
-    defeatTitle: "Thất bại!"
-}
-
-// Message toast
-// CreatedBy: NVTHUY(29/03/2023)
-export const msgToast = {
-    addEmployeeSuccess: "Nhân viên đã được thêm",
-    updateEmployeeSuccess: "Nhân viên đã được cập nhật",
-    deleteEmployeeSuccess: "Nhân viên đã được xoá"
 }

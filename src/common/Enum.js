@@ -41,6 +41,7 @@ export const typePopup = {
     store: 3,
     multipleDelete: 4,
     duplicate:5,
+    errorImg: 6,
 }
 
 // Kiểu toast hiển thị

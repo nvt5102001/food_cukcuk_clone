@@ -116,24 +116,21 @@
                   >
                   <div class="popup__input">
                     <input
-                      type="number"
+                      type="text"
                       name=""
                       id=""
                       class="input"
                       title-input="Giá bán"
+                      @keydown="removeLeadingZeros"
                       @input="inputNumberPrice"
                       @keyup="
                         ($event) => updateValue($event, food, 'FoodPrice')
                       "
                       :value="convertMoney(food.FoodPrice)"
+                      @blur="blurMoneyPrice"
                       required
                       style="text-align: right; padding-right: 3px"
                     />
-                    <!-- v-model="food.FoodPrice" -->
-                    <!-- @keyup="
-                        ($event) => updateValue($event, food, 'FoodPrice')
-                      "
-                      :value="convertMoney(food.FoodPrice)" -->
                   </div>
                 </div>
                 <div
@@ -142,13 +139,14 @@
                   <label class="popup__group__input-label">Giá vốn </label>
                   <div class="popup__input">
                     <input
-                      type="number"
+                      type="text"
                       name=""
                       id=""
                       class="input"
                       @input="inputNumberCost"
                       @keyup="($event) => updateValue($event, food, 'FoodCost')"
                       :value="convertMoney(food.FoodCost)"
+                      @blur="blurMoneyCost"
                       style="text-align: right; padding-right: 3px"
                     />
                   </div>
@@ -478,7 +476,7 @@ import {
   checkDuplicateCode,
 } from "@/utils/foods/loadFood";
 // import * as RequireImage from "@/js/handleImage";
-// import * as Sources from "@/common/Sources";
+import * as Sources from "@/common/Sources";
 import * as Enum from "@/common/Enum";
 
 const clickoutside = {
@@ -598,10 +596,21 @@ export default {
       isShowPopup: 0,
       imageOld: null,
       foodCodeOld: null,
+      foodOld: {
+        FoodPrice: 0,
+        FoodCost: 0,
+      },
+      msgPopup: null,
+      flagClose: null,
     };
   },
 
   methods: {
+    closeDialogQuick() {
+      this.showPopupFunc(0);
+      this.$emit("showForm", false);
+    },
+
     closePopup() {
       this.showPopupFunc(0);
     },
@@ -725,6 +734,12 @@ export default {
      */
     convertMoney(value) {
       if (value) {
+        if (value && typeof value === "string") {
+          // Kiểm tra và xoá bỏ số 0 đầu tiên của value
+          if (value.startsWith("0") && value.length > 1) {
+            value = value.replace(/^0+/, "");
+          }
+        }
         const regex = /\./i;
         let temp = value + "";
         while (temp.indexOf(".") != -1) temp = temp.replace(regex, "").trim();
@@ -776,15 +791,19 @@ export default {
      */
     fileImageOnChange(event) {
       var _this = this;
-      if (event.target.files && event.target.files[0]) {
+      var allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']; // danh sách các kiểu tập tin ảnh được phép
+      if (event.target.files && event.target.files[0] && allowedTypes.includes(event.target.files[0].type)) {
         var reader = new FileReader();
         reader.onload = function (e) {
           _this.urlFileImage = e.target.result;
         };
         reader.readAsDataURL(event.target.files[0]);
         _this.fileImage = event.target.files[0];
+      } else {
+        this.showPopupFunc(Enum.typePopup.errorImg);
+        this.msgPopup = Sources.popupMsg.errorImgMsg;
       }
-    },
+},
 
     /**
      * Chọn ảnh
@@ -807,6 +826,7 @@ export default {
           let res = await getFoodByID(this.foodID);
           if (res.status == 200) {
             this.food = res.data;
+            this.foodOld = { ...this.food };
 
             if (this.food.FoodImageID) {
               this.imageOld = this.food.FoodImageID;
@@ -935,11 +955,25 @@ export default {
         const errorIcon = event.target
           .closest(".popup__group__input")
           .querySelector(".icon-form-error");
+
         if (errorIcon) {
           errorIcon.remove();
           event.target.removeAttribute("data-error-icon"); // Xóa thuộc tính data-error-icon để đánh dấu đã xóa div
         }
         event.target.classList.remove("input-error");
+      }
+    },
+
+    blurMoneyCost(event) {
+      if (event.target.value.trim() === "") {
+        event.target.value = 0;
+        this.food.FoodCost = 0;
+      }
+    },
+    blurMoneyPrice(event) {
+      if (event.target.value.trim() === "") {
+        event.target.value = 0;
+        this.food.FoodPrice = 0;
       }
     },
 
@@ -963,7 +997,19 @@ export default {
      * author: NVThuy(25/04/2023)
      */
     closeDialog() {
-      this.$emit("showForm", false);
+      for (let prop in this.food) {
+        if (this.foodOld[prop] !== this.food[prop]) {
+          this.showPopupFunc(Enum.typePopup.store);
+          this.flagClose = 1;
+          this.msgPopup = Sources.popupMsg.storeMsg;
+          this.$emit("showForm", true);
+        } else {
+          if (this.flagClose != 1) {
+            this.$emit("showForm", false);
+            this.showPopupFunc(0);
+          }
+        }
+      }
     },
 
     /**
@@ -1107,14 +1153,27 @@ export default {
       }
     },
 
+    /**
+     * Kiểm tra trùng mã
+     * author: NVThuy(25/04/2023)
+     */
     async checkDuplicateCodeFunc(id, code) {
       let res;
       res = await checkDuplicateCode(id, code);
       return res;
     },
+
+    /**
+     * Hàm cất và thêm
+     * author: NVThuy(25/04/2023)
+     */
     async handleSave() {
       let res;
       let check = this.validate();
+      let checkCode = await this.checkDuplicateCodeFunc(
+        this.guidNull,
+        this.food.FoodCode
+      );
       if (check) {
         if (this.fileImage) {
           await this.uploadImage();
@@ -1126,19 +1185,24 @@ export default {
           this.formMode == Enum.formMode.add ||
           this.formMode == Enum.formMode.clone
         ) {
-          res = await InsertFood(this.food, this.serviceHobbies);
-          if (res.status == 201) {
-            this.resetForm();
-            this.getFoodCode();
-            this.$emit("filterDataNoLoading");
+          if (checkCode.data == false) {
+            res = await InsertFood(this.food, this.serviceHobbies);
+            if (res.status == 201) {
+              this.resetForm();
+              this.newCode();
+              this.$emit("filterDataNoLoading");
+            } else {
+              console.log(res.data.ListErrors);
+            }
           } else {
-            console.log(res.data.ListErrors);
+            this.foodCode = this.food.FoodCode;
+            this.showPopupFunc(Enum.typePopup.duplicate);
           }
         } else if (this.formMode == Enum.formMode.update) {
           res = await UpdateFood(this.foodID, this.food, this.serviceHobbies);
           if (res.status == 200) {
             this.resetForm();
-            this.getFoodCode();
+            this.newCode();
             this.$emit("filterDataNoLoading");
           }
         }
@@ -1147,6 +1211,10 @@ export default {
       }
     },
 
+    /**
+     * Reset form
+     * author: NVThuy(27/04/2023)
+     */
     resetForm() {
       this.$emit("changeFormMode");
       this.food = {};
@@ -1155,6 +1223,7 @@ export default {
       this.menuGroupEl.value = "";
       this.cookRoomEl.value = "";
       this.foodUnitEl.value = "";
+      this.deleteImage();
       this.foodNameEl.focus();
     },
 
@@ -1186,8 +1255,8 @@ export default {
      * Blur input tên món -> hiển thị mã mới
      * author: NVThuy(25/04/2023)
      */
-    getFoodCode(event) {
-      this.blurValidate(event);
+    getFoodCode() {
+      this.blurValidate();
       if (this.formMode == Enum.formMode.add) {
         this.newCode();
       }
@@ -1209,32 +1278,42 @@ export default {
       this.food.FoodPrice = newValue;
     },
 
-    inputNumberCost(event) {
-      let newValue = event.target.value.replace(/[^0-9]/g, "");
-      this.food.FoodCost = newValue;
+    // inputNumberCost(event) {
+    //   let newValue = event.target.value.replace(/[^0-9]/g, "");
+    //   this.food.FoodCost = newValue;
+    // },
+
+    inputNumberCost(e) {
+      // loại bỏ các ký tự không phải số và không phải dấu chấm
+      e.target.value = event.target.value.replace(/[^0-9]/g, "");
+
+      // loại bỏ các số 0 đầu tiên
+      if (e.target.value.startsWith("0") && e.target.value.length > 1) {
+        e.target.value = e.target.value.replace(/^0+/, "");
+      }
     },
 
     /**
      * Sự kiện nhấn phím
      * Created by NVTHUY 06/04/2023
      */
-    handleKey(event) {
+    async handleKey(event) {
       // Nhấn 'ESC' để đóng form
       if (event.keyCode == 27) {
         this.closeDialog();
       }
 
-      // Nhấn tổ hợp phím Ctr + S để 'Cất'
-      if (event.ctrlKey && event.key === "s") {
-        event.preventDefault();
-        this.handleStore();
-      }
+      // // Nhấn tổ hợp phím Ctr + S để 'Cất'
+      // if (event.ctrlKey && event.key === "s") {
+      //   event.preventDefault();
+      //   await this.handleStore();
+      // }
 
-      // Nhấn tổ hợp phím Ctr + Shift + S để 'Cất và thêm'
-      if (event.ctrlKey && event.shiftKey && event.key === "s") {
-        event.preventDefault();
-        this.handleSave();
-      }
+      // // Nhấn tổ hợp phím Ctr + Shift + S để 'Cất và thêm'
+      // if (event.ctrlKey && event.shiftKey && event.key === "s") {
+      //   event.preventDefault();
+      //   this.handleSave();
+      // }
     },
 
     /**

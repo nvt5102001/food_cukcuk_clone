@@ -3,51 +3,68 @@
     <div class="ms-pagination-inner">
       <div class="pagination__left">
         <div class="pagination__left-item">
-          <div
-            class="icon-page-first icon-16"
-            id="firstPage"
-            @click="firstPage"
-            title="Trang đầu"
-          ></div>
-          <div
-            class="icon-left-page icon-16"
-            id="prevPage"
-            @click="prevPage"
-            title="Trang trước"
-          ></div>
-          <div class="line-page"></div>
-          <div>Trang</div>
-          <div>
-            <input
-              type="number"
-              name="pageNumber"
-              id=""
-              class="input input-page"
-              :value="pageNumber"
-              @change="$emit('getPageNumber')"
-            />
+          <div class="pagination__left-item-inner" :class="{ disabled: pageNumber == 1 }">
+            <div
+              class="icon-page-first icon-16"
+              id="firstPage"
+              @click="firstPage"
+              title="Trang đầu"
+            ></div>
           </div>
-          <div style="min-width: 42px">trên {{ maxPage }}</div>
-          <div class="line-page"></div>
-          <div
-            class="icon-right-page icon-16"
-            id="nextPage"
-            @click="nextPage"
-            title="Trang sau"
-          ></div>
-          <div
-            class="icon-page-last icon-16"
-            id="lastPage"
-            @click="lastPage"
-            title="Trang cuối"
-          ></div>
-          <div class="line-page"></div>
-          <div
-            class="icon-page-refresh icon-16"
-            @click="refreshPage"
-            title="Tải lại"
-          ></div>
-          <div class="line-page"></div>
+          <div class="pagination__left-item-inner" :class="{ disabled: pageNumber == 1 }">
+            <div
+              class="icon-left-page icon-16"
+              
+              id="prevPage"
+              @click="prevPage"
+              title="Trang trước"
+            ></div>
+          </div>
+          <div><div class="line-page"></div></div>
+          <div><div>Trang</div></div>
+          <div>
+            <div>
+              <input
+                type="number"
+                name="pageNumber"
+                id=""
+                class="input input-page"
+                :value="pageNumber"
+                @change="$emit('getPageNumber')"
+              />
+            </div>
+          </div>
+          <div>
+            <div style="min-width: 42px">trên {{ maxPage }}</div>
+          </div>
+          <div><div class="line-page"></div></div>
+          <div class="pagination__left-item-inner" :class="{ disabled: pageNumber == maxPage }">
+            <div
+              class="icon-right-page icon-16"
+              
+              id="nextPage"
+              @click="nextPage"
+              title="Trang sau"
+            ></div>
+          </div>
+          <div class="pagination__left-item-inner" :class="{ disabled: pageNumber == maxPage }">
+            <div
+              class="icon-page-last icon-16"
+              
+              id="lastPage"
+              @click="lastPage"
+              title="Trang cuối"
+            ></div>
+          </div>
+          <div><div class="line-page"></div></div>
+          <div class="pagination__left-item-inner">
+            <div
+              class="icon-page-refresh icon-16"
+              @click="refreshPage"
+              title="Tải lại"
+            ></div>
+          </div>
+          <div><div class="line-page"></div></div>
 
           <div class="pagination-button-record">
             <div class="input-pagination">

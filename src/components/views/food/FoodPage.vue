@@ -575,7 +575,8 @@
                         <input
                           type="text"
                           class="input input-filter"
-                          readonly
+                          v-model="inputShowOnMenu"
+                          @change="changeInputShowOnMenu"
                         />
                         <div
                           class="icon__input--down icon-16 input-btn"
@@ -628,7 +629,7 @@
                   "
                   @dblclick="showUpadateRecord(food.FoodID)"
                   :class="{ selectRecord: foodID == food.FoodID }"
-                  @contextmenu.prevent="showContextMenu($event, food.FoodID)"
+                  @contextmenu.prevent="showContextMenu($event, food.FoodID,food.FoodCode, food.FoodName)"
                 >
                   <td>Món ăn</td>
                   <td>{{ food.FoodCode }}</td>
@@ -703,6 +704,12 @@
           class="toolbar__button--icon icon-toolbar icon-delete icon-16"
         ></div>
         <a href="#" class="fix-link">Xoá</a>
+      </li>
+      <li class="fix-item"  @click="refreshData">
+        <div
+          class="toolbar__button--icon icon-toolbar icon-load icon-16"
+        ></div>
+        <a href="#" class="fix-link">Nạp</a>
       </li>
     </ul>
   </div>
@@ -933,6 +940,8 @@ export default {
       contextMenuLeft: 0,
       selectRecordNumber: false,
       isShowPopup: 0,
+      inputShowOnMenu: '',
+      
     };
   },
   methods: {
@@ -963,9 +972,11 @@ export default {
      * Menu con
      * author: NVThuy(25/04/2023)
      */
-    showContextMenu(event, id) {
+    showContextMenu(event, id, code , name) {
       event.preventDefault();
       this.foodID = id;
+      this.foodCode = code;
+      this.foodName = name;
       // Xác định vị trí chuột
       this.contextMenuTop = event.pageY;
       this.contextMenuLeft = event.pageX;
@@ -1162,6 +1173,7 @@ export default {
           type: "boolean",
         },
       ];
+      this.isContextMenuVisible = false;
       this.filterData();
     },
 
@@ -1280,6 +1292,45 @@ export default {
         this.Filters[6].Value = item;
         this.showFilterShowOnMenu = false;
         this.Filters[6].Operator = operator;
+        if(item == 1)
+        {
+          this.inputShowOnMenu = 'Không';
+        }
+        else 
+        {
+          this.inputShowOnMenu = 'Có';
+        }
+        this.filterData();
+      }
+    },
+
+    changeInputShowOnMenu(){
+      if(this.inputShowOnMenu.trim() == 'Có')
+      {
+        this.selectOperator(this.field.ShowOnMenu,0,this.compares[0].id)
+      }
+      else if(this.inputShowOnMenu.trim() == 'Không')
+      {
+        this.selectOperator(this.field.ShowOnMenu,1,this.compares[0].id)
+      }
+      else if(this.inputShowOnMenu.trim() === '') 
+      {
+        this.Filters[6] = {
+          Property: "ShowOnMenu",
+          Operator: Enum.operators.EQUAL,
+          Value: null,
+          type: "boolean",
+        }
+        this.filterData();
+      }
+      else 
+      {
+        this.Filters[6] = {
+          Property: "ShowOnMenu",
+          Operator: Enum.operators.EQUAL,
+          Value: 2,
+          type: "boolean",
+        }
         this.filterData();
       }
     },
@@ -1442,11 +1493,6 @@ export default {
       if (event.ctrlKey && event.key === "e") {
         event.preventDefault();
         this.showUpdate();
-      }
-
-      if (event.ctrlKey && event.key === "d") {
-        event.preventDefault();
-        this.handleDelete();
       }
 
       if (event.ctrlKey && event.key === "d") {
