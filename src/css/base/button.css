@@ -7,9 +7,17 @@
     padding: 0 16px;
     outline: none;
 }
+.btn-hover 
+{
+    outline: none;
+}
 .btn-hover:hover 
 {
     border: 1px solid #4b9cd7;
+}
+.btn-hover:focus 
+{
+    border: 1px solid #4b9cd7 !important;
 }
 .btn-default-cukcuk 
 {
@@ -21,12 +29,18 @@
     font-size: 12px;
     font-weight: normal;
     cursor: pointer;
+    outline: none;
 
 }
 .btn-icons 
 {
-    
+    outline: none;
     cursor: pointer;
+}
+.btn-icons:focus 
+{
+    border: 1px solid #4b9cd7;
+    background-color: #ccc;
 }
 .button-icon 
 {

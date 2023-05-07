@@ -165,6 +165,11 @@
   {
     background-color: #d7e9f4 ;
   }
+  .ms-tbody-combobox tr:nth-child(even) .input-filter, 
+  .ms-tbody-combobox tr:nth-child(even) td
+{
+    background-color: #fafafa ;
+}
   .table-autocombobox-header div 
   {
     justify-content: center;

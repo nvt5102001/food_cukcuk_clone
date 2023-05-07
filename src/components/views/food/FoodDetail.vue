@@ -54,7 +54,9 @@
                       v-model="food.FoodName"
                       title-input="Tên món"
                       @blur="getFoodCode"
+                      ref="foodName"
                       required
+                      tabindex="1"
                     />
                   </div>
                 </div>
@@ -72,6 +74,7 @@
                       title-input="Mã món"
                       required
                       @blur="blurValidate"
+                      tabindex="2"
                     />
                   </div>
                 </div>
@@ -87,6 +90,7 @@
                       url="https://localhost:44340/api/v1/MenuGroups"
                       propValue="MenuGroupID"
                       propText="MenuGroupName"
+                      tabIndex="3"
                     />
                   </div>
                 </div>
@@ -105,6 +109,7 @@
                       titleInput="Đơn vị tính"
                       @blurValidate="blurValidate"
                       required
+                      tabIndex="4"
                     />
                   </div>
                 </div>
@@ -122,7 +127,7 @@
                       class="input"
                       title-input="Giá bán"
                       @keydown="removeLeadingZeros"
-                      @input="inputNumberPrice"
+                      @input="inputNumber"
                       @keyup="
                         ($event) => updateValue($event, food, 'FoodPrice')
                       "
@@ -130,6 +135,7 @@
                       @blur="blurMoneyPrice"
                       required
                       style="text-align: right; padding-right: 3px"
+                      tabindex="5"
                     />
                   </div>
                 </div>
@@ -143,11 +149,12 @@
                       name=""
                       id=""
                       class="input"
-                      @input="inputNumberCost"
+                      @input="inputNumber"
                       @keyup="($event) => updateValue($event, food, 'FoodCost')"
                       :value="convertMoney(food.FoodCost)"
                       @blur="blurMoneyCost"
                       style="text-align: right; padding-right: 3px"
+                      tabindex="6"
                     />
                   </div>
                 </div>
@@ -159,6 +166,7 @@
                       id=""
                       class="input"
                       v-model="food.FoodDescription"
+                      tabindex="7"
                     ></textarea>
                   </div>
                 </div>
@@ -172,6 +180,7 @@
                       @getValue="GetCookRoomID"
                       propValue="CookRoomID"
                       propText="CookRoomName"
+                      tabIndex="8"
                     />
                   </div>
                 </div>
@@ -189,12 +198,37 @@
                       :true-value="1"
                       :false-value="0"
                       v-model="food.ShowOnMenu"
+                      tabindex="9"
                     />
                     <span class="ms-checkbox">
                       <span
                         class="ms-checkbox-tick icon icon-checkbox-active icon-14 checked"
                       ></span> </span
                     ><span>Không hiển thị trên thực đơn</span>
+                  </div>
+                </div>
+
+                <div
+                  class="popup__group__input flex flex flex-items-center"
+                  style="margin-top: 4px"
+                >
+                  <label class="popup__group__input-label"></label>
+                  <div class="popup__input checkbox-text ms-checkbox-con">
+                    <input
+                      type="checkbox"
+                      name="stopSelling"
+                      id=""
+                      class="input-checkbox"
+                      :true-value="1"
+                      :false-value="0"
+                      v-model="food.StopSelling"
+                      tabindex="10"
+                    />
+                    <span class="ms-checkbox">
+                      <span
+                        class="ms-checkbox-tick icon icon-checkbox-active icon-14 checked"
+                      ></span> </span
+                    ><span>Ngừng bán</span>
                   </div>
                 </div>
               </div>
@@ -226,9 +260,11 @@
                     <div
                       class="group__image-right-item btn-hover"
                       title="Chọn ảnh"
+                      tabindex="11"
                       @click="btnOpenFileOnClick"
+                      @keydown.enter="btnOpenFileOnClick"
                     >
-                      <span>...</span>
+                      <span >...</span>
                       <input
                         v-on:change="fileImageOnChange($event)"
                         style="display: none"
@@ -241,6 +277,8 @@
                       class="group__image-right-item image__icon-cancel btn-hover"
                       title="Xoá ảnh"
                       @click="deleteImage"
+                      tabindex="12"
+                      @keydown.enter="deleteImage"
                     >
                       <span style="color: red">x</span>
                     </div>
@@ -249,7 +287,11 @@
               </div>
             </div>
 
-            <div class="popup__body-contents tabbar" v-show="serviceHobby">
+            <div
+              class="popup__body-contents tabbar"
+              v-show="serviceHobby"
+              @click="() => (showService = false)"
+            >
               <div>
                 <div style="margin-bottom: 8px">Món ăn:</div>
                 <div class="flex flex-items-center">
@@ -261,7 +303,10 @@
                   </div>
                 </div>
               </div>
-              <div class="form-table-service">
+              <div
+                class="form-table-service"
+                @click="() => (showService = false)"
+              >
                 <table class="table-service">
                   <thead>
                     <tr>
@@ -295,10 +340,12 @@
                               'column-selected':
                                 index == rowSelected && flagRowSelected == 0,
                             }"
+                            ref="inputRefs"
                           />
                           <div
                             class="icon__input--down icon-16 input-btn"
                             @click="showListService(index)"
+                            v-if="showBtnSelectService == index"
                           ></div>
                           <div
                             class="table-autocombobox"
@@ -314,6 +361,7 @@
                               </div>
                               <div
                                 class="flex table-autocombobox-body"
+                                style="cursor: pointer"
                                 v-for="(item, index) in filteredServiceHobbys"
                                 :key="index"
                                 :class="{
@@ -348,7 +396,13 @@
                       >
                         <input
                           type="text"
-                          v-model="item.AdditionalPayment"
+                          @input="inputNumber"
+                          @keyup="
+                            ($event) =>
+                              updateValue($event, item, 'AdditionalPayment')
+                          "
+                          :value="convertMoney(item.AdditionalPayment)"
+                          @blur="blurMoneyAdd(index)"
                           class="input input-filter"
                           @click="rowOnClick(index, 1)"
                           :class="{
@@ -393,8 +447,9 @@
             <div class="popup__body-footer-right flex flex-items-center">
               <button
                 class="btn-icons flex flex-items-center"
-                title="Ctrl + S"
+                title="Ctrl + L"
                 @click="handleStore"
+                tabindex="13"
               >
                 <div
                   class="btn-icon icon-toolbar icon-16 icon-form-store"
@@ -404,6 +459,7 @@
               <button
                 class="btn-icons flex flex-items-center"
                 @click="handleSave"
+                tabindex="14"
               >
                 <div class="btn-icon icon-toolbar icon-16 icon-form-save"></div>
                 <div class="btn-icon-text">Cất và thêm</div>
@@ -411,6 +467,7 @@
               <button
                 class="btn-icons flex flex-items-center"
                 @click="closeDialog"
+                tabindex="15"
               >
                 <div
                   class="btn-icon icon-toolbar icon-16 icon-form-cancel"
@@ -453,6 +510,8 @@
       :showPopup="isShowPopup"
       @closeDialog="closePopup"
       :foodCode="foodCode"
+      :serviceName="serviceName"
+      :servicePrice="servicePrice"
       @closeDialogQuick="closeDialogQuick"
       @showPopupFunc="showPopupFunc"
       @handleStore="handleStore"
@@ -474,10 +533,13 @@ import {
   getNewCode,
   getFoodByID,
   checkDuplicateCode,
+  GetImage,
 } from "@/utils/foods/loadFood";
+import "@/utils/interceptor";
 // import * as RequireImage from "@/js/handleImage";
 import * as Sources from "@/common/Sources";
 import * as Enum from "@/common/Enum";
+import { v4 as uuidv4 } from "uuid";
 
 const clickoutside = {
   mounted(el, binding) {
@@ -581,6 +643,7 @@ export default {
       cookRoomEl: null,
       foodUnitEl: null,
       showOnMenuEl: null,
+      stopSellingEl: null,
       urlFileImage: "",
       // Biến lưu file ảnh
       fileImage: null,
@@ -602,10 +665,57 @@ export default {
       },
       msgPopup: null,
       flagClose: null,
+      errorList: [],
+      serviceName: null,
+      servicePrice: 0,
+      showBtnSelectService: -1,
+      newImageName: null,
     };
   },
 
   methods: {
+    checkNoNameService() {
+      return this.serviceHobbies.some(
+        (item) => !item.ServiceHobbyName && item.AdditionalPayment !== 0
+      );
+    },
+
+    checkAddListService() {
+      let checkService = false;
+      if (this.serviceHobbies != null && this.serviceHobbies.length > 0) {
+        for (var i = 0; i < this.serviceHobbies.length; i++) {
+          for (var j = i + 1; j < this.serviceHobbies.length; j++) {
+            if (
+              (this.serviceHobbies[i].ServiceHobbyName ==
+                this.serviceHobbies[j].ServiceHobbyName &&
+                this.serviceHobbies[i].AdditionalPayment ==
+                  this.serviceHobbies[j].AdditionalPayment &&
+                this.serviceHobbies[i].AdditionalPayment != 0 &&
+                this.serviceHobbies[j].AdditionalPayment != 0) ||
+              (this.serviceHobbies[i].ServiceHobbyName ==
+                this.serviceHobbies[j].ServiceHobbyName &&
+                this.serviceHobbies[i].AdditionalPayment ==
+                  this.serviceHobbies[j].AdditionalPayment &&
+                this.serviceHobbies[i].AdditionalPayment == 0 &&
+                this.serviceHobbies[i].AdditionalPayment == 0 &&
+                this.serviceHobbies[i].ServiceHobbyName.trim() !== "" &&
+                this.serviceHobbies[j].ServiceHobbyName.trim() !== "")
+            ) {
+              checkService = true;
+              this.serviceName = this.serviceHobbies[i].ServiceHobbyName;
+              this.servicePrice = this.serviceHobbies[i].AdditionalPayment;
+              break;
+            }
+          }
+          if (checkService) {
+            break;
+          }
+        }
+      }
+
+      return checkService;
+    },
+
     closeDialogQuick() {
       this.showPopupFunc(0);
       this.$emit("showForm", false);
@@ -642,7 +752,12 @@ export default {
       var me = this;
       var keyCodePress = event.keyCode;
       var elToFocus = null;
-      this.filteredServiceHobbys = this.serviceHobbys;
+      if (
+        this.indexItemFocus == null ||
+        this.filteredServiceHobbys.length == 0
+      ) {
+        this.filteredServiceHobbys = this.serviceHobbys;
+      }
       switch (keyCodePress) {
         case keyCode.ESC:
           this.showService = false;
@@ -659,6 +774,9 @@ export default {
           } else {
             this.indexItemFocus += 1;
           }
+          if (this.indexItemFocus >= this.filteredServiceHobbys.length) {
+            this.indexItemFocus = this.filteredServiceHobbys.length - 1;
+          }
           break;
         case keyCode.ArrowUp:
           this.showService = true;
@@ -672,6 +790,9 @@ export default {
           } else {
             this.indexItemFocus -= 1;
           }
+          if (this.indexItemFocus < 0) {
+            this.indexItemFocus = 0;
+          }
           break;
         case keyCode.Enter:
           elToFocus = this.$refs[`toFocus_${me.indexItemFocus}`];
@@ -684,6 +805,11 @@ export default {
           break;
       }
     },
+
+    /**
+     * Tìm kiếm dịch vụ thêm
+     * author: NVThuy(25/04/2023)
+     */
     inputOnChange(value) {
       this.filteredServiceHobbys = this.serviceHobbys.filter(
         (item) =>
@@ -691,6 +817,9 @@ export default {
           item.AdditionalPayment.toString().includes(value)
       );
       this.showService = true;
+      if (this.filteredServiceHobbys.length == 0) {
+        this.showService = false;
+      }
     },
     /**
      * Format lại từ tiền về số
@@ -791,19 +920,24 @@ export default {
      */
     fileImageOnChange(event) {
       var _this = this;
-      var allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']; // danh sách các kiểu tập tin ảnh được phép
-      if (event.target.files && event.target.files[0] && allowedTypes.includes(event.target.files[0].type)) {
+      var allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"]; // danh sách các kiểu tập tin ảnh được phép
+      if (
+        event.target.files &&
+        event.target.files[0] &&
+        allowedTypes.includes(event.target.files[0].type)
+      ) {
         var reader = new FileReader();
         reader.onload = function (e) {
           _this.urlFileImage = e.target.result;
         };
         reader.readAsDataURL(event.target.files[0]);
+
         _this.fileImage = event.target.files[0];
       } else {
         this.showPopupFunc(Enum.typePopup.errorImg);
         this.msgPopup = Sources.popupMsg.errorImgMsg;
       }
-},
+    },
 
     /**
      * Chọn ảnh
@@ -828,13 +962,29 @@ export default {
             this.food = res.data;
             this.foodOld = { ...this.food };
 
+            if (this.formMode == Enum.formMode.clone) {
+              this.newCode();
+            }
+
             if (this.food.FoodImageID) {
               this.imageOld = this.food.FoodImageID;
               this.urlFileImage = `https://localhost:44340/api/v1/Foods/get-image/${this.food.FoodImageID}`;
             }
+
             if (this.formMode == Enum.formMode.clone) {
+              if (this.food.FoodImageID) {
+                let res = await GetImage(this.food.FoodImageID);
+                this.fileImage = new File(
+                  [res],
+                  `${uuidv4()}.${res.type.slice(6)}`,
+                  {
+                    type: res.type,
+                  }
+                );
+              }
               this.newCode();
             }
+
             this.foodCodeOld = this.food.FoodCode;
             this.menuGroupEl.value = this.food.MenuGroupName;
             this.cookRoomEl.value = this.food.CookRoomName;
@@ -870,6 +1020,7 @@ export default {
      * author: NVThuy(25/04/2023)
      */
     showListService(index) {
+      event.stopPropagation();
       this.serviceID = index;
       this.filteredServiceHobbys = this.serviceHobbys;
       let miniMenu = document.getElementById("optionsRow");
@@ -896,7 +1047,12 @@ export default {
       // Lặp qua từng input để kiểm tra nếu input có thuộc tính "required"
       for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].hasAttribute("required")) {
-          if (!inputs[i].value || inputs[i].value.trim() == "".trim()) {
+          if (
+            !inputs[i].value ||
+            (inputs[i].value && inputs[i].value.trim() == "".trim())
+          ) {
+            this.errorList.push(inputs[i]);
+            this.errorList = [...new Set(this.errorList)];
             if (!inputs[i].hasAttribute("data-error-icon")) {
               // Kiểm tra nếu chưa có data-error-icon
               inputs[i].classList.add("input-error");
@@ -918,6 +1074,10 @@ export default {
             }
             hasEmptyValue = false;
           } else {
+            var index = this.errorList.indexOf(inputs[i]);
+            if (index !== -1) {
+              this.errorList.splice(index, 1);
+            }
             const errorIcon = inputs[i]
               .closest(".popup__group__input")
               .querySelector(".icon-form-error");
@@ -968,6 +1128,12 @@ export default {
       if (event.target.value.trim() === "") {
         event.target.value = 0;
         this.food.FoodCost = 0;
+      }
+    },
+    blurMoneyAdd(index) {
+      if (event.target.value.trim() === "") {
+        event.target.value = 0;
+        this.serviceHobbies[index].AdditionalPayment = 0;
       }
     },
     blurMoneyPrice(event) {
@@ -1046,6 +1212,7 @@ export default {
      */
     rowOnClick(index, flag) {
       this.serviceID = index;
+      this.showBtnSelectService = index;
       this.rowSelected = index;
       this.flagRowSelected = flag;
     },
@@ -1060,6 +1227,11 @@ export default {
         this.rowSelected = this.serviceHobbies.length - 1;
         this.flagRowSelected = 0;
       }
+      this.$nextTick(() => {
+        const inputs = this.$refs.inputRefs;
+        inputs[inputs.length - 1].focus();
+        this.showBtnSelectService = inputs.length - 1;
+      });
       this.isServiceMenuVisible = false;
     },
 
@@ -1073,6 +1245,7 @@ export default {
           for (var i = 0; i < this.serviceHobbies.length; i++) {
             if (i == this.serviceID) {
               this.serviceHobbies.splice(i, 1);
+              this.rowSelected = -1;
             }
           }
         } else {
@@ -1089,19 +1262,174 @@ export default {
      */
     async handleStore() {
       let res;
+      // Check validate
+      let check = this.validate();
+
+      // Check trùng mã
+      let checkCode = await this.checkDuplicateCodeFunc(
+        this.guidNull,
+        this.food.FoodCode
+      );
+
+      // Check Sở thích phục vụ trùng nhau
+      let checkService = this.checkAddListService();
+
+      // Check có thu thêm nhưng không có tên sở thích phục vụ
+      let checkNoNameService = this.checkNoNameService();
+
+      // Nếu không có lỗi
+      if (
+        check == true &&
+        checkService == false &&
+        checkNoNameService == false
+      ) {
+        // upload ảnh lên serve
+        if (this.fileImage) {
+          try {
+            await this.uploadImage();
+          } catch (error) {
+            this.showPopupFunc(Enum.typePopup.errors);
+            this.msgPopup = error.response.data.userMsg;
+            this.$emit("showForm", true);
+            return;
+          }
+        }
+
+        // Định dạng lại tiền
+        this.food.FoodPrice = this.parseMoney(this.food.FoodPrice);
+        this.food.FoodCost = this.parseMoney(this.food.FoodCost);
+
+        // Định dạng lại checkbox
+        this.formatShowOnMenu();
+        this.formatStopSelling();
+
+        // Nếu là form thêm hoặc nhân bản
+        if (
+          this.formMode == Enum.formMode.add ||
+          this.formMode == Enum.formMode.clone
+        ) {
+          // Kiểm tra trùng mã
+          if (checkCode && checkCode.data == false) {
+            try {
+              res = await InsertFood(this.food, this.serviceHobbies);
+              if (res.status == 201) {
+                this.$emit("showForm", false);
+                this.$emit("filterData");
+                this.isServiceMenuVisible = false;
+              }
+            } catch (error) {
+              this.showPopupFunc(Enum.typePopup.errors);
+              this.msgPopup = Sources.errorsInput.vi.errorAll;
+              this.$emit("showForm", true);
+              return;
+            }
+          } else if (checkCode && checkCode.data == true) {
+            this.foodCode = this.food.FoodCode;
+            this.showPopupFunc(Enum.typePopup.duplicate);
+          }
+        } else if (this.formMode == Enum.formMode.update) {
+          if (this.food.FoodCode != this.foodCodeOld) {
+            if (checkCode.data == false) {
+              if (this.food.FoodImageID != this.imageOld) {
+                await deleteImageOld(this.imageOld);
+              }
+              res = await UpdateFood(
+                this.foodID,
+                this.food,
+                this.serviceHobbies
+              );
+              if (res.status == 200) {
+                this.$emit("showForm", false);
+                this.$emit("filterData");
+                this.isServiceMenuVisible = false;
+              }
+            } else {
+              this.foodCode = this.food.FoodCode;
+              this.showPopupFunc(Enum.typePopup.duplicate);
+            }
+          } else {
+            if (this.food.FoodImageID != this.imageOld) {
+              await deleteImageOld(this.imageOld);
+            }
+            res = await UpdateFood(this.foodID, this.food, this.serviceHobbies);
+            if (res.status == 200) {
+              this.$emit("showForm", false);
+              this.$emit("filterData");
+            }
+          }
+        }
+      } else if (
+        check == false &&
+        checkService == false &&
+        checkNoNameService == false
+      ) {
+        this.general = true;
+        this.serviceHobby = false;
+        event.preventDefault();
+        if (this.errorList.length > 0) {
+          this.errorList[0].focus();
+        }
+      } else if (
+        check == true &&
+        checkService == true &&
+        checkNoNameService == false
+      ) {
+        this.showPopupFunc(Enum.typePopup.errorDuplicateService);
+        event.preventDefault();
+      } else if (
+        check == true &&
+        checkService == false &&
+        checkNoNameService == true
+      ) {
+        this.showPopupFunc(Enum.typePopup.errorImg);
+        this.msgPopup = Sources.popupMsg.serviceName;
+        event.preventDefault();
+      } else {
+        event.preventDefault();
+        this.showPopupFunc(Enum.typePopup.errorImg);
+        this.msgPopup = Sources.popupMsg.serviceName;
+        this.showPopupFunc(Enum.typePopup.errorDuplicateService);
+      }
+    },
+
+    /**
+     * Kiểm tra trùng mã
+     * author: NVThuy(25/04/2023)
+     */
+    async checkDuplicateCodeFunc(id, code) {
+      let res;
+      if (code && code !== "") {
+        res = await checkDuplicateCode(id, code);
+        return res;
+      }
+    },
+
+    /**
+     * Hàm cất và thêm
+     * author: NVThuy(25/04/2023)
+     */
+    async handleSave() {
+      let res;
       let check = this.validate();
       let checkCode = await this.checkDuplicateCodeFunc(
         this.guidNull,
         this.food.FoodCode
       );
+      let checkService = this.checkAddListService();
+      let checkNoNameService = this.checkNoNameService();
       // this.foodCode = this.food.FoodCode;
-      if (check) {
+      if (
+        check == true &&
+        checkService == false &&
+        checkNoNameService == false
+      ) {
         if (this.fileImage) {
           await this.uploadImage();
         }
         this.food.FoodPrice = this.parseMoney(this.food.FoodPrice);
         this.food.FoodCost = this.parseMoney(this.food.FoodCost);
         this.formatShowOnMenu();
+        this.formatStopSelling();
         if (
           this.formMode == Enum.formMode.add ||
           this.formMode == Enum.formMode.clone
@@ -1109,8 +1437,10 @@ export default {
           if (checkCode.data == false) {
             res = await InsertFood(this.food, this.serviceHobbies);
             if (res.status == 201) {
-              this.$emit("showForm", false);
-              this.$emit("filterData");
+              this.resetForm();
+              this.newCode();
+              this.$emit("filterDataNoLoading");
+              this.isServiceMenuVisible = false;
             } else {
               console.log(res.data.ListErrors);
             }
@@ -1130,8 +1460,10 @@ export default {
                 this.serviceHobbies
               );
               if (res.status == 200) {
-                this.$emit("showForm", false);
-                this.$emit("filterData");
+                this.resetForm();
+                this.newCode();
+                this.$emit("filterDataNoLoading");
+                this.isServiceMenuVisible = false;
               }
             } else {
               this.foodCode = this.food.FoodCode;
@@ -1143,71 +1475,44 @@ export default {
             }
             res = await UpdateFood(this.foodID, this.food, this.serviceHobbies);
             if (res.status == 200) {
-              this.$emit("showForm", false);
-              this.$emit("filterData");
-            }
-          }
-        }
-      } else {
-        console.log("Có lỗi");
-      }
-    },
-
-    /**
-     * Kiểm tra trùng mã
-     * author: NVThuy(25/04/2023)
-     */
-    async checkDuplicateCodeFunc(id, code) {
-      let res;
-      res = await checkDuplicateCode(id, code);
-      return res;
-    },
-
-    /**
-     * Hàm cất và thêm
-     * author: NVThuy(25/04/2023)
-     */
-    async handleSave() {
-      let res;
-      let check = this.validate();
-      let checkCode = await this.checkDuplicateCodeFunc(
-        this.guidNull,
-        this.food.FoodCode
-      );
-      if (check) {
-        if (this.fileImage) {
-          await this.uploadImage();
-        }
-        this.food.FoodPrice = this.parseMoney(this.food.FoodPrice);
-        this.food.FoodCost = this.parseMoney(this.food.FoodCost);
-        this.formatShowOnMenu();
-        if (
-          this.formMode == Enum.formMode.add ||
-          this.formMode == Enum.formMode.clone
-        ) {
-          if (checkCode.data == false) {
-            res = await InsertFood(this.food, this.serviceHobbies);
-            if (res.status == 201) {
               this.resetForm();
               this.newCode();
               this.$emit("filterDataNoLoading");
-            } else {
-              console.log(res.data.ListErrors);
+              this.isServiceMenuVisible = false;
             }
-          } else {
-            this.foodCode = this.food.FoodCode;
-            this.showPopupFunc(Enum.typePopup.duplicate);
-          }
-        } else if (this.formMode == Enum.formMode.update) {
-          res = await UpdateFood(this.foodID, this.food, this.serviceHobbies);
-          if (res.status == 200) {
-            this.resetForm();
-            this.newCode();
-            this.$emit("filterDataNoLoading");
           }
         }
+      } else if (
+        check == false &&
+        checkService == false &&
+        checkNoNameService == false
+      ) {
+        this.general = true;
+        this.serviceHobby = false;
+        event.preventDefault();
+        if (this.errorList.length > 0) {
+          this.errorList[0].focus();
+        }
+      } else if (
+        check == true &&
+        checkService == true &&
+        checkNoNameService == false
+      ) {
+        this.showPopupFunc(Enum.typePopup.errorDuplicateService);
+        event.preventDefault();
+      } else if (
+        check == true &&
+        checkService == false &&
+        checkNoNameService == true
+      ) {
+        this.showPopupFunc(Enum.typePopup.errorImg);
+        this.msgPopup = Sources.popupMsg.serviceName;
+        event.preventDefault();
       } else {
-        console.log("Có lỗi");
+        event.preventDefault();
+        this.showPopupFunc(Enum.typePopup.errorImg);
+        this.msgPopup = Sources.popupMsg.serviceName;
+        this.showPopupFunc(Enum.typePopup.errorDuplicateService);
       }
     },
 
@@ -1218,6 +1523,7 @@ export default {
     resetForm() {
       this.$emit("changeFormMode");
       this.food = {};
+      this.serviceHobbies = [];
       this.food.FoodPrice = 0;
       this.food.FoodCost = 0;
       this.menuGroupEl.value = "";
@@ -1225,6 +1531,8 @@ export default {
       this.foodUnitEl.value = "";
       this.deleteImage();
       this.foodNameEl.focus();
+      this.general = true;
+      this.serviceHobby = false;
     },
 
     /**
@@ -1236,6 +1544,18 @@ export default {
         this.food.ShowOnMenu = 1;
       } else {
         this.food.ShowOnMenu = 0;
+      }
+    },
+
+    /**
+     * Format hiện trên menu
+     * author: NVThuy(25/04/2023)
+     */
+    formatStopSelling() {
+      if (this.food.StopSelling == true) {
+        this.food.StopSelling = 1;
+      } else {
+        this.food.StopSelling = 0;
       }
     },
 
@@ -1273,17 +1593,7 @@ export default {
       }
     },
 
-    inputNumberPrice(event) {
-      let newValue = event.target.value.replace(/[^0-9]/g, "");
-      this.food.FoodPrice = newValue;
-    },
-
-    // inputNumberCost(event) {
-    //   let newValue = event.target.value.replace(/[^0-9]/g, "");
-    //   this.food.FoodCost = newValue;
-    // },
-
-    inputNumberCost(e) {
+    inputNumber(e) {
       // loại bỏ các ký tự không phải số và không phải dấu chấm
       e.target.value = event.target.value.replace(/[^0-9]/g, "");
 
@@ -1297,23 +1607,23 @@ export default {
      * Sự kiện nhấn phím
      * Created by NVTHUY 06/04/2023
      */
-    async handleKey(event) {
+    handleKey(event) {
       // Nhấn 'ESC' để đóng form
       if (event.keyCode == 27) {
         this.closeDialog();
       }
 
-      // // Nhấn tổ hợp phím Ctr + S để 'Cất'
-      // if (event.ctrlKey && event.key === "s") {
-      //   event.preventDefault();
-      //   await this.handleStore();
-      // }
+      // Nhấn tổ hợp phím Ctr + S để 'Cất'
+      if (event.ctrlKey && event.key === "l") {
+        event.preventDefault();
+        this.handleStore();
+      }
 
-      // // Nhấn tổ hợp phím Ctr + Shift + S để 'Cất và thêm'
-      // if (event.ctrlKey && event.shiftKey && event.key === "s") {
-      //   event.preventDefault();
-      //   this.handleSave();
-      // }
+      // Nhấn tổ hợp phím Ctr + Shift + S để 'Cất và thêm'
+      if (event.ctrlKey && event.shiftKey && event.key === "l") {
+        event.preventDefault();
+        this.handleSave();
+      }
     },
 
     /**
@@ -1343,8 +1653,22 @@ export default {
     this.cookRoomEl = this.$el.querySelector('div[name="cookRoomName"] input');
     this.foodUnitEl = this.$el.querySelector('div[name="foodUnitName"] input');
     this.showOnMenuEl = this.$el.querySelector('input[name="showOnMenu"]');
+    this.stopSellingEl = this.$el.querySelector('input[name="stopSelling"]');
     this.foodNameEl.focus();
 
+    const elements = document.querySelectorAll("[tabindex]");
+    const lastIndex = elements.length - 1;
+
+    elements.forEach((el, index) => {
+      el.tabIndex = index + 1;
+
+      el.addEventListener("keydown", (event) => {
+        if (event.keyCode === 9 && index === lastIndex) {
+          event.preventDefault();
+          elements[0].focus();
+        }
+      });
+    });
     window.addEventListener("keydown", (e) => this.handleKey(e));
   },
 

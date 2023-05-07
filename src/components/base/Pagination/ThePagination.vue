@@ -70,7 +70,7 @@
             <div class="input-pagination">
               <div class="th-filter-type-1">
                 <input
-                  type="text"
+                  type="number"
                   name="pageSize"
                   :value="pageSize"
                   style="
@@ -208,12 +208,13 @@ export default {
     },
     getPageSize(pageSize) {
       this.pageSizeSelect = pageSize;
+      this.isActive = pageSize;
       this.$emit("pageSizeSelect", this.pageSizeSelect);
       // this.selectRecordNumber = false;
-      this.isActive = pageSize;
     },
     borderBlueFunc() {
       this.borderBlue = true;
+      this.isActive = null;
     },
     hideselectRecordNumber() {
       this.$emit("hideselectRecordNumber", this.borderBlue);

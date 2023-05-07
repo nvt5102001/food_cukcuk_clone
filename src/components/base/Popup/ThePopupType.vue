@@ -22,9 +22,54 @@
           class="btn-default-cukcuk btn-hover"
           text="Có"
           @click="handleAccept"
+          v-focus
         />
       </div>
     </ThePopup>
+
+    <!-- Popup cảnh báo trùng sở thích -->
+    <ThePopup
+      typeIcon="icon-warning"
+      v-if="showPopup == this.TypePopup.errorDuplicateService"
+      titlePopup="CUKCUK - Quản lý nhà hàng"
+    >
+      <template v-slot:dialogText>
+        <div class="dialog__text">
+          Sở thích phục vụ  
+          <span>&lt; {{ serviceName }} - {{ servicePrice }} &gt;</span> đã bị trùng. Vui lòng kiểm tra lại.
+        </div>
+      </template>
+      <div class="dialog__footer flex flex-items-center flex-row-reverse">
+        <BaseButton
+          class="btn-default-cukcuk btn-hover"
+          text="Đồng ý"
+          @click="handleCancel"
+          v-focus
+        />
+      </div>
+    </ThePopup>
+
+    <!-- Popup cảnh báo trùng sở thích -->
+    <ThePopup
+      typeIcon="icon-error"
+      v-if="showPopup == this.TypePopup.errors"
+      titlePopup="CUKCUK - Quản lý nhà hàng"
+    >
+      <template v-slot:dialogText>
+        <div class="dialog__text">
+          {{msg}}
+        </div>
+      </template>
+      <div class="dialog__footer flex flex-items-center flex-row-reverse">
+        <BaseButton
+          class="btn-default-cukcuk btn-hover"
+          text="Đồng ý"
+          @click="handleCancel"
+          v-focus
+        />
+      </div>
+    </ThePopup>
+
 
     <!-- Popup cảnh báo trùng mã -->
     <ThePopup
@@ -44,6 +89,7 @@
           class="btn-default-cukcuk btn-hover"
           text="Đồng ý"
           @click="handleCancel"
+          v-focus
         />
       </div>
     </ThePopup>
@@ -64,6 +110,7 @@
           class="btn-default-cukcuk btn-hover"
           text="Đồng ý"
           @click="handleCancel"
+          v-focus
         />
       </div>
     </ThePopup>
@@ -85,6 +132,7 @@
           class="btn-default-cukcuk btn-hover"
           text="Có"
           @click="handleAccept"
+          v-focus
         />
         <BaseButton
           class="btn-default-cukcuk btn-hover"
@@ -98,44 +146,6 @@
         />
       </div>
     </ThePopup>
-
-    <!-- <ThePopup  
-    typeIcon="icon-error" 
-    v-if="showPopup == this.TypePopup.validate" 
-    :titlePopup="titlePopup.validTitle" >
-    <template v-slot:iconClose  >
-            <div class="icon icon-close icon-24 cursor-pointer" id="btnClose" 
-            @click="handleCancel"
-            ></div>
-        </template>
-        <template v-slot:dialogText>
-            <pre class="dialog__text preText">{{msg}}</pre>
-        </template>
-        <div class="dialog__footer flex flex-items-center flex-row-reverse ">
-        <BaseButton class="btn btn-red" text="Đồng ý" @click="handleCancel" />
-        </div>
-    </ThePopup>
-
-    
-    <ThePopup  
-    typeIcon="icon-warning" 
-    v-if="showPopup == this.TypePopup.multipleDelete" 
-    :titlePopup="titlePopup.deleteTitle" >
-        <template v-slot:iconClose  >
-            <div class="icon icon-close icon-24 cursor-pointer" id="btnClose" 
-            @click="handleCancel"
-            ></div>
-        </template>
-        <template v-slot:dialogText> 
-            <div class="dialog__text">
-                {{msg}} 
-            </div>
-        </template>
-        <div class="dialog__footer flex flex-items-center flex-row-reverse ">
-        <BaseButton class="btn btn-red" text="Xoá" @click="handleAccept" />
-        <BaseButton class="btn btn-normal-default" text="Huỷ bỏ" @click="handleCancel" />
-        </div>
-    </ThePopup> -->
   </div>
 </template>
 <script>
@@ -155,6 +165,8 @@ export default {
     },
     foodCode: String,
     foodName: String,
+    serviceName: String,
+    servicePrice: Number,
     msg: String,
   },
 

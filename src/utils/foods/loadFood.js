@@ -62,3 +62,18 @@ export async function checkDuplicateCode(id,code)
 }
 
 
+export async function GetImage(name)
+{   
+    try 
+    {
+        let res = await fetch(`https://localhost:44340/api/v1/Foods/get-image/${name}`)
+        .then(res => res.blob())
+        return res;
+    }catch(error) {
+        return error;
+    }    
+}
+
+
+
+

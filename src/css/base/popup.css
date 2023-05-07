@@ -158,6 +158,8 @@
     width: 100%;
     outline: none;
     min-height: 48px;
+    font-family:'Roboto-Regular';
+    font-size: 13px;
 }
 .popup__group__input textarea:focus
 {
@@ -200,8 +202,10 @@
     position: absolute;
     left: 0;
     top: -7px;
-
 }
+.popup__body-content-right fieldset:focus-within {
+    border: 2px solid #4b9cd7;
+ }
 
 .image-food 
 {
@@ -306,6 +310,15 @@
     border-collapse: collapse;
     width: 100%;
 }
+
+.table-service thead
+{
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+}
+
 .table-service tr:nth-child(even) td 
 {
     background-color: #fafafa;

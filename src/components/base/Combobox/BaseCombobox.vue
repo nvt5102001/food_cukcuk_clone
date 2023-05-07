@@ -11,13 +11,13 @@
       @blur="$emit('blurValidate')"
       :class="classInput"
       :title-input="titleInput"
+      :tabindex="tabIndex"
       
     />
     <button
       class="button combobox__button"
       @click.stop="btnSelectDataOnClick"
       @keydown="selecItemUpDown"
-      tabindex="-1"
     >
       <div class="icon__input--down icon-16 input-btn "></div>
     </button>
@@ -138,6 +138,7 @@ export default {
     required:String,
     classInput: String,
     titleInput: String,
+    tabIndex: Number
 
   },
   methods: {

@@ -23,63 +23,57 @@
           <div class="content__body__option">
             <div class="content__body__option-left flex flex-items-center">
               <div class="center__body__option-left-item">
-                <div class="toolbar__button" @click="handleOpenDialog" title="Ctr + 1">
+                <div
+                  class="toolbar__button"
+                  @click="handleOpenDialog"
+                  title="Ctr + 1"
+                >
                   <div
                     class="toolbar__button--icon icon-toolbar icon-insert icon-16"
                   ></div>
                   <div class="toolbar__button--text">Thêm</div>
                 </div>
-                <div class="toolbar__button" @click="handleClone" title="Ctr + C">
+                <div
+                  class="toolbar__button"
+                  @click="handleClone"
+                  title="Ctr + C"
+                >
                   <div
                     class="toolbar__button--icon icon-toolbar icon-clone icon-16"
                   ></div>
                   <div class="toolbar__button--text">Nhân bản</div>
                 </div>
-                <div class="toolbar__button" @click="showUpdate()" title="Ctr + E">
+                <div
+                  class="toolbar__button"
+                  @click="showUpdate()"
+                  title="Ctr + E"
+                >
                   <div
                     class="toolbar__button--icon icon-toolbar icon-update icon-16"
                   ></div>
                   <div class="toolbar__button--text">Sửa</div>
                 </div>
-                <div class="toolbar__button" @click="handleDelete" title="Ctr + D">
+                <div
+                  class="toolbar__button"
+                  @click="handleDelete"
+                  title="Ctr + D"
+                >
                   <div
                     class="toolbar__button--icon icon-toolbar icon-delete icon-16"
                   ></div>
                   <div class="toolbar__button--text">Xoá</div>
                 </div>
-
-                <!-- <div class="selectedRecordOptions" v-show="isMultipleHandle"> 
-                      <div class="selectedRecordNumber">
-                          <span  class="selectedRecordText"></span>
-                          <span class="deselectRecord" @click="deselectRecord">Bỏ chọn</span>
-                      </div>
-                      <div class="selectedRecordBtn">
-                        <div>
-                              <BaseButton
-                              class="btn btn__icon--right"
-                              text="Xoá nhiều"
-                              @click="handleDeleteAll"
-                              />
-                              <div class="icon icon-close icon-24 "></div>
-                        </div>
-
-                        <div>
-                              <BaseButton
-                              class="btn btn__icon--right"
-                              text="Xuất khẩu"
-                              @click="handleExport"
-                              />
-                              <div class="icon-24 icon icon__excel--20"></div>
-                        </div>
-                      </div>
-                  </div> -->
               </div>
               <div
                 class="center__body__option-left-item"
                 style="column-gap: 4px"
               >
                 <div class="line-page" style="margin: 0 5px"></div>
-                <div class="toolbar__button" @click="refreshData" title="Ctr + Y">
+                <div
+                  class="toolbar__button"
+                  @click="refreshData"
+                  title="Ctr + Y"
+                >
                   <div
                     class="toolbar__button--icon icon-toolbar icon-load icon-16"
                   ></div>
@@ -89,30 +83,10 @@
             </div>
             <div class="content__body__option-center">
               <div class="center__body__option-center-item">
-                <div class="input-icon center__body__input">
-                  <!-- <input
-                    type="text"
-                    placeholder="Tìm theo mã, tên nhân viên"
-                    class="input-normal input-icon-text"
-                    @change="searchData"
-                    v-model="keySearch"
-                  /> 
-                  <div class="icon-16 icon icon-search"></div>-->
-                </div>
+                <div class="input-icon center__body__input"></div>
               </div>
             </div>
-            <div class="content__body__option-right">
-              <!-- <div
-                class="center__body__option-right-item icon icon-24 icon-refresh"
-                id="refreshData"
-                @click="refreshData"
-                title="Load lại dữ liệu"
-              ></div>
-              <div
-                class="center__body__option-right-item icon icon-24 icon-excel"
-                @click="exportExcel" title="Xuất khẩu"
-              ></div> -->
-            </div>
+            <div class="content__body__option-right"></div>
           </div>
         </div>
 
@@ -460,6 +434,7 @@
                         </div>
                         <div
                           class="filter-type-2"
+                          style="right: -5px;"
                           v-show="showFilterFoodCost"
                           v-clickoutside="() => (showFilterFoodCost = false)"
                         >
@@ -529,6 +504,7 @@
                         </div>
                         <div
                           class="filter-type-2"
+                          style="right: -5px;"
                           v-show="showFilterFoodPrice"
                           v-clickoutside="() => (showFilterFoodPrice = false)"
                         >
@@ -617,6 +593,56 @@
                       </div>
                     </div>
                   </th>
+                  <th class="ms-th">
+                    <div class="ms-th-inner">
+                      <div class="th-text">Ngừng bán</div>
+                      <div class="th-filter-type-1">
+                        <input
+                          type="text"
+                          class="input input-filter"
+                          v-model="inputStopSelling"
+                          @change="changeInputStopSelling"
+                        />
+                        <div
+                          class="icon__input--down icon-16 input-btn"
+                          @click="
+                            () =>
+                              (showFilterStopSelling = !showFilterStopSelling)
+                          "
+                        ></div>
+
+                        <div
+                          class="filter-type-1"
+                          v-show="showFilterStopSelling"
+                        >
+                          <div
+                            class="filter-type-2-item flex flex-items-center"
+                            @click="
+                              selectOperator(
+                                field.StopSelling,
+                                0,
+                                compares[0].id
+                              )
+                            "
+                          >
+                            <div class="filter-type-2-text">Không</div>
+                          </div>
+                          <div
+                            class="filter-type-2-item flex flex-items-center"
+                            @click="
+                              selectOperator(
+                                field.StopSelling,
+                                1,
+                                compares[0].id
+                              )
+                            "
+                          >
+                            <div class="filter-type-2-text">Có</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </th>
                 </tr>
               </thead>
 
@@ -629,7 +655,15 @@
                   "
                   @dblclick="showUpadateRecord(food.FoodID)"
                   :class="{ selectRecord: foodID == food.FoodID }"
-                  @contextmenu.prevent="showContextMenu($event, food.FoodID,food.FoodCode, food.FoodName)"
+                  @contextmenu.prevent="
+                    showContextMenu(
+                      $event,
+                      food.FoodID,
+                      food.FoodCode,
+                      food.FoodName,
+                      food.FoodImageID
+                    )
+                  "
                 >
                   <td>Món ăn</td>
                   <td>{{ food.FoodCode }}</td>
@@ -648,6 +682,21 @@
                           class="icon icon-16"
                           :class="{
                             'icon-checkbox-default': food.ShowOnMenu == 0,
+                          }"
+                        ></span>
+                      </span>
+                    </div>
+                  </td>
+                  <td class="td-center">
+                    <div class="popup__input checkbox-text ms-checkbox-con">
+                      <span
+                        class="ms-checkbox"
+                        style="width: 13px; height: 13px"
+                      >
+                        <span
+                          class="icon icon-16"
+                          :class="{
+                            'icon-checkbox-default': food.StopSelling == 1,
                           }"
                         ></span>
                       </span>
@@ -687,7 +736,7 @@
         ></div>
         <a href="#" class="fix-link">Thêm thực đơn</a>
       </li>
-      <li class="fix-item" @click="handleClone" >
+      <li class="fix-item" @click="handleClone">
         <div
           class="toolbar__button--icon icon-toolbar icon-clone icon-16"
         ></div>
@@ -705,10 +754,8 @@
         ></div>
         <a href="#" class="fix-link">Xoá</a>
       </li>
-      <li class="fix-item"  @click="refreshData">
-        <div
-          class="toolbar__button--icon icon-toolbar icon-load icon-16"
-        ></div>
+      <li class="fix-item" @click="refreshData">
+        <div class="toolbar__button--icon icon-toolbar icon-load icon-16"></div>
         <a href="#" class="fix-link">Nạp</a>
       </li>
     </ul>
@@ -764,6 +811,7 @@ import { getAllFood, filterFood } from "@/utils/foods/loadFood";
 import * as Sources from "@/common/Sources";
 import * as Enum from "@/common/Enum";
 import { DeleteFood } from "@/utils/foods/handleFood";
+import { deleteImageOld } from "@/utils/foods/handleFood";
 
 const clickoutside = {
   mounted(el, binding) {
@@ -817,6 +865,7 @@ export default {
       showFilterFoodPrice: false,
       showFilterFoodType: false,
       showFilterShowOnMenu: false,
+      showFilterStopSelling: false,
 
       filterFoodCode: "*",
       filterFoodName: "*",
@@ -825,6 +874,7 @@ export default {
       filterFoodCost: "≤",
       filterFoodPrice: "≤",
       filterShowOnMenu: "",
+      filterStopSelling: "",
 
       operators: [
         { id: Enum.operators.CONTAIN, operator: "*", text: ": Chứa" },
@@ -895,6 +945,12 @@ export default {
           Value: null,
           type: "boolean",
         },
+        {
+          Property: "StopSelling",
+          Operator: Enum.operators.EQUAL,
+          Value: null,
+          type: "boolean",
+        },
       ],
       field: {
         FoodCode: 0,
@@ -904,6 +960,7 @@ export default {
         FoodCost: 4,
         FoodPrice: 5,
         ShowOnMenu: 6,
+        StopSelling: 7,
       },
       fieldName: {
         FoodCode: "FoodCode",
@@ -913,6 +970,7 @@ export default {
         FoodCost: "FoodCost",
         FoodPrice: "FoodPrice",
         ShowOnMenu: "ShowOnMenu",
+        StopSelling: "StopSelling",
       },
       filterSort: null,
       sortData: {
@@ -931,6 +989,7 @@ export default {
       foodType: "Món ăn",
       isLoading: false,
       foodID: null,
+      foodImage: null,
       foodCode: null,
       foodName: null,
       formMode: null,
@@ -940,16 +999,16 @@ export default {
       contextMenuLeft: 0,
       selectRecordNumber: false,
       isShowPopup: 0,
-      inputShowOnMenu: '',
-      
+      inputShowOnMenu: "",
+      inputStopSelling: "",
+      imageName: "",
     };
   },
   methods: {
-    hideselectRecordNumber(){
-        this.selectRecordNumber = false
+    hideselectRecordNumber() {
+      this.selectRecordNumber = false;
     },
-    changeFormMode()
-    {
+    changeFormMode() {
       this.formMode = Enum.formMode.add;
     },
     /**
@@ -972,11 +1031,12 @@ export default {
      * Menu con
      * author: NVThuy(25/04/2023)
      */
-    showContextMenu(event, id, code , name) {
+    showContextMenu(event, id, code, name, image) {
       event.preventDefault();
       this.foodID = id;
       this.foodCode = code;
       this.foodName = name;
+      this.imageName = image;
       // Xác định vị trí chuột
       this.contextMenuTop = event.pageY;
       this.contextMenuLeft = event.pageX;
@@ -1038,8 +1098,11 @@ export default {
      * author: NVThuy(25/04/2023)
      */
     firstPage() {
-      this.pageNumber = 1;
-      this.filterData();
+      if(this.pageNumber != 1)
+      {
+        this.pageNumber = 1;
+        this.filterData();
+      }
     },
 
     /**
@@ -1047,8 +1110,11 @@ export default {
      * author: NVThuy(25/04/2023)
      */
     lastPage() {
-      this.pageNumber = this.maxPage;
-      this.filterData();
+      if(this.pageNumber != this.maxPage)
+      {
+        this.pageNumber = this.maxPage;
+        this.filterData();
+      }
     },
 
     /**
@@ -1107,23 +1173,7 @@ export default {
       }
       this.filterData();
     },
-
-    // initPagination() {
-    //   let prevPage = this.$el.parentElement.querySelector("#prevPage");
-    //   let nextPage = this.$el.parentElement.querySelector("#nextPage");
-    //   if (this.pageNumber == 1) {
-    //     prevPage.classList.add("disable");
-    //   } else {
-    //     prevPage.classList.remove("disable");
-    //   }
-
-    //   if (this.pageNumber >= this.maxPage) {
-    //     nextPage.classList.add("disable");
-    //   } else {
-    //     nextPage.classList.remove("disable");
-    //   }
-    // },
-
+    
     /**
      * Nạp dữ liệu
      * author: NVThuy(25/04/2023)
@@ -1172,6 +1222,12 @@ export default {
           Value: null,
           type: "boolean",
         },
+        {
+          Property: "StopSelling",
+          Operator: Enum.operators.EQUAL,
+          Value: null,
+          type: "boolean",
+        },
       ];
       this.isContextMenuVisible = false;
       this.filterData();
@@ -1185,6 +1241,9 @@ export default {
       let res = await DeleteFood(this.foodID);
       if (res.status == 200) {
         this.showPopupFunc(0);
+        if (this.imageName) {
+          await deleteImageOld(this.imageName);
+        }
         this.filterData();
       }
     },
@@ -1292,45 +1351,69 @@ export default {
         this.Filters[6].Value = item;
         this.showFilterShowOnMenu = false;
         this.Filters[6].Operator = operator;
-        if(item == 1)
-        {
-          this.inputShowOnMenu = 'Không';
+        if (item == 1) {
+          this.inputShowOnMenu = "Không";
+        } else {
+          this.inputShowOnMenu = "Có";
         }
-        else 
-        {
-          this.inputShowOnMenu = 'Có';
+        this.filterData();
+      } else if (field == this.field.StopSelling) {
+        this.Filters[7].Value = item;
+        this.showFilterStopSelling = false;
+        this.Filters[7].Operator = operator;
+        if (item == 1) {
+          this.inputStopSelling = "Có";
+        } else {
+          this.inputStopSelling = "Không";
         }
         this.filterData();
       }
     },
 
-    changeInputShowOnMenu(){
-      if(this.inputShowOnMenu.trim() == 'Có')
-      {
-        this.selectOperator(this.field.ShowOnMenu,0,this.compares[0].id)
-      }
-      else if(this.inputShowOnMenu.trim() == 'Không')
-      {
-        this.selectOperator(this.field.ShowOnMenu,1,this.compares[0].id)
-      }
-      else if(this.inputShowOnMenu.trim() === '') 
-      {
+    changeInputShowOnMenu() {
+      if (this.inputShowOnMenu.trim() == "Có") {
+        this.selectOperator(this.field.ShowOnMenu, 0, this.compares[0].id);
+      } else if (this.inputShowOnMenu.trim() == "Không") {
+        this.selectOperator(this.field.ShowOnMenu, 1, this.compares[0].id);
+      } else if (this.inputShowOnMenu.trim() === "") {
         this.Filters[6] = {
           Property: "ShowOnMenu",
           Operator: Enum.operators.EQUAL,
           Value: null,
           type: "boolean",
-        }
+        };
         this.filterData();
-      }
-      else 
-      {
+      } else {
         this.Filters[6] = {
           Property: "ShowOnMenu",
           Operator: Enum.operators.EQUAL,
           Value: 2,
           type: "boolean",
-        }
+        };
+        this.filterData();
+      }
+    },
+
+    changeInputStopSelling() {
+      if (this.inputStopSelling.trim() == "Không") {
+        this.selectOperator(this.field.StopSelling, 0, this.compares[0].id);
+      } else if (this.inputStopSelling.trim() == "Có") {
+        this.selectOperator(this.field.StopSelling, 1, this.compares[0].id);
+      } else if (this.inputStopSelling.trim() === "") {
+        this.Filters[7] = {
+          Property: "StopSelling",
+          Operator: Enum.operators.EQUAL,
+          Value: null,
+          type: "boolean",
+        };
+        this.filterData();
+      } else {
+        this.Filters[7] = {
+          Property: "StopSelling",
+          Operator: Enum.operators.EQUAL,
+          Value: 2,
+          type: "boolean",
+        };
         this.filterData();
       }
     },
@@ -1382,9 +1465,7 @@ export default {
           this.dataEmpty = false;
         }
         this.isLoading = false;
-      }
-      else 
-      {
+      } else {
         this.dataEmpty = true;
       }
     },
@@ -1415,9 +1496,7 @@ export default {
         } else {
           this.dataEmpty = false;
         }
-      }
-      else 
-      {
+      } else {
         this.dataEmpty = true;
       }
     },
@@ -1504,7 +1583,6 @@ export default {
         event.preventDefault();
         this.handleClone();
       }
-
     },
   },
   created() {

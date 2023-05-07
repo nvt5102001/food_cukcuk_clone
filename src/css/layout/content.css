@@ -86,6 +86,7 @@
     height: calc(100vh - 55px - 14px - 42px - 26px - 36px - 14px);
     overflow-y: scroll;
     background-color: #fff;
+    /* border-left: 1px solid #ccc; */
     
     
 }
